@@ -12,7 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // OTP Storage & Rate Limiting Engine
 interface OtpRecord {
@@ -146,8 +146,11 @@ function getMailTransporter() {
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.SMTP_PORT || '465', 10);
   const secure = process.env.SMTP_SECURE !== undefined ? process.env.SMTP_SECURE === 'true' : port === 465;
-  const user = process.env.SMTP_USER || 'pardhupavan457@gmail.com';
-  const pass = (process.env.SMTP_PASS || 'tahg xlkq lrkh ktrs').replace(/\s+/g, '');
+  const user = process.env.SMTP_USER;
+  const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+  if (!user || !pass) {
+    throw new Error('SMTP is not configured. Set SMTP_USER and SMTP_PASS in the deployment environment.');
+  }
 
   if (host.includes('gmail.com')) {
     return nodemailer.createTransport({
@@ -474,7 +477,7 @@ async function startServer() {
     res.json({
       status: 'ok',
       hasApiKey: Boolean(process.env.GEMINI_API_KEY),
-      smtpConfigured: Boolean(process.env.SMTP_USER || 'pardhupavan457@gmail.com'),
+      smtpConfigured: Boolean(process.env.SMTP_USER && process.env.SMTP_PASS),
     });
   });
 
@@ -2489,6 +2492,9 @@ Format the response in engaging, clear Markdown.`;
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
+    app.use('/api', (req, res, next) => {
+      res.status(404).json({ error: `API route not found: ${req.method} ${req.originalUrl}` });
+    });
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
