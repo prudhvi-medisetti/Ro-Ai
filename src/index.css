@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Touch friendly smooth scrolling */
+.custom-code-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Sleek scrollbar styling */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}

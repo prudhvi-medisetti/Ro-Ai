@@ -1,0 +1,6 @@
+{
+  "name": "Ro - Human AI Chatbot",
+  "description": "An authentic, human-style AI companion named Ro with an Autonomous Project Builder (AI Software Engineer), real-time responsive Attachment Gallery, in-app AI Image Studio, YouTube Thumbnail Studio, High-Yield Preparation Modules, secure email OTP authentication, and D3 activity analytics.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
